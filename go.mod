@@ -1,6 +1,8 @@
 module github.com/caarlos0/clone-org
 
-go 1.20
+go 1.23.0
+
+toolchain go1.24.1
 
 require (
 	github.com/charmbracelet/bubbles v0.20.0
