@@ -48,8 +48,13 @@ func (m initialModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case errMsg:
 		m.loading = false
 		m.err = msg.error
-		return m, nil
+		log.Printf("Critical error: %v", m.err)
+		return m, tea.Quit // Exit only on critical errors
 	case gotRepoListMsg:
+		m.loading = false
+		if len(msg.repos) == 0 {
+			log.Printf("No repositories found for %s. Proceeding with empty list.", m.org)
+		}
 		list := newCloneModel(msg.repos, m.org, m.destination, m.tui, m.width, m.height)
 		return list, list.Init()
 	case tea.KeyMsg:
